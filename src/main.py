@@ -67,11 +67,15 @@ class DrawableWindow():
         if self.paused:
             return
         for boid in self.boids:
-            boid.move()
+            # fly_towards_center(boid)
+            # avoid_others(boid)
+            # match_velocity(boid)
+            # cap_speed(boid)
+            boid.move(self.boids)
             x = int(boid.x)
             y = int(boid.y)
             oldest = boid.update_trail(x,y)
-            self.photo.put(boid.color, (x,y))
+            self.photo.put(boid.color, (int(x),int(y)))
             self.photo.put("#000", oldest)
             self.canvas.move(self.drawn_objects[boid.id], boid.dx, boid.dy)
             self.canvas.event_add
