@@ -62,8 +62,8 @@ class DrawableWindow():
             return
         for boid in self.boids:
             boid.move()
-            x = int(boid.radius + boid.x)
-            y = int(boid.radius + boid.y)
+            x = int(boid.x)
+            y = int(boid.y)
             oldest = boid.update_trail(x,y)
             self.photo.put(boid.color, (x,y))
             self.photo.put("#000", oldest)
