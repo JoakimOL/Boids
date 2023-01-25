@@ -39,4 +39,4 @@ class Boid2(DrawableWithTrail, DrawableCircle):
 
 
     def __repr__(self) -> str:
-        return f"boid {self.id:5d}: ({self.x}, {self.y}), color={self.color}"
+        return f"boid {self.id:5d}: ({self.x:4.2f}, {self.y:4.2f}), speed: ({self.vx:2.2f},{self.vy:2.2f}), color={self.color:4s}"

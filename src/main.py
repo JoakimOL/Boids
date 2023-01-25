@@ -38,10 +38,10 @@ class DrawableWindow():
         self.paused = True
 
     def start(self):
+        print("\n"*(len(self.boids)),end="")
         self.root.mainloop()
 
     def resize(self, width, height):
-        print(f"resizing to {width}x{height}")
         self.canvas.configure(width=width, height=height)
 
     def handle_resize_event(self, event):
@@ -49,13 +49,19 @@ class DrawableWindow():
 
     def handle_mouse_click(self, event):
         self.add_boid(Boid2(uuid.uuid4().int, 5, event.x, event.y, self.width, self.height))
-        print(event)
 
     def toggle_running(self, _):
         self.start_label.destroy()
         self.paused = not self.paused
         if not self.paused:
             self.update()
+
+    def print_boid_info_blob(self):
+        print("\033[F"*(len(self.boids)+2))
+        for boid in boids:
+            print("\033[2K\033[1G",end="")
+            print(boid)
+        print(f"number of boids: {len(self.boids)}")
 
     def update(self):
         if self.paused:
@@ -69,8 +75,7 @@ class DrawableWindow():
             self.photo.put("#000", oldest)
             self.canvas.move(self.drawn_objects[boid.id], boid.dx, boid.dy)
             self.canvas.event_add
-            print(boid)
-            print(f"number of boids: {len(self.boids)}", end="\r")
+        self.print_boid_info_blob()
         self.root.after(self.delay, self.update)
 
     def motion(self, event):
