@@ -3,12 +3,15 @@ import random
 from drawable import DrawableCircle, DrawableWithTrail
 
 class Boid2(DrawableWithTrail, DrawableCircle):
+    def _generate_random_direction(self) -> float:
+        return random.random()*2 * 1 if random.randint(-5,5) > 0 else -1
+
     def __init__(self, id, radius, x, y,  max_x, max_y, color=None):
         DrawableWithTrail.__init__(self, id, x, y, max_x, max_y, color)
         DrawableCircle.__init__(self, id, radius, x, y, max_x, max_y, color)
 
-        self.vx = random.random()*2
-        self.vy = random.random()*2
+        self.vx = self._generate_random_direction()
+        self.vy = self._generate_random_direction()
 
         self.dx = 0
         self.dy = 0
