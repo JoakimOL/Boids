@@ -36,10 +36,12 @@ class Boid2(DrawableWithTrail, DrawableCircle):
             self.vy = -self.vy
 
     def cap_speed(self):
+        direction_x = self.vx / abs(self.vx)
+        direction_y = self.vy / abs(self.vy)
         if abs(self.vx) > self._MAX_SPEED_X:
-            self.vx = max(self._MAX_SPEED_X, self.vx) - min(self._MAX_SPEED_X, self.vx)
+            self.vx = self._MAX_SPEED_X * direction_x
         if abs(self.vy) > self._MAX_SPEED_Y:
-            self.vy = max(self._MAX_SPEED_Y, self.vy) - min(self._MAX_SPEED_Y, self.vy)
+            self.vy = self._MAX_SPEED_Y * direction_y
 
     def move(self, others):
         self.cohesion(others)
