@@ -16,10 +16,10 @@ class Boid2(DrawableWithTrail, DrawableCircle):
         self.dx = 0
         self.dy = 0
 
-        self._VISUAL_RANGE=125
-        self._CENTERING_FACTOR=0.005
-        self._MAX_SPEED_X=5
-        self._MAX_SPEED_Y=5
+        self._VISUAL_RANGE = 200
+        self._CENTERING_FACTOR = 0.005
+        self._MAX_SPEED_X = 4
+        self._MAX_SPEED_Y = 4
 
     def bounce(self):
         if self.x < 0:
@@ -44,10 +44,12 @@ class Boid2(DrawableWithTrail, DrawableCircle):
             self.vy = self._MAX_SPEED_Y * direction_y
 
     def move(self, others):
+        # calculate steering in terms of self.vx and self.vy
         self.cohesion(others)
         self.separation(others)
         self.alignment(others)
         self.cap_speed()
+
         # Update position
         x, y = self.x, self.y
         x += self.vx
@@ -56,6 +58,8 @@ class Boid2(DrawableWithTrail, DrawableCircle):
         self.dx = x - self.x
         self.dy = y - self.y
         self.x, self.y = x, y
+
+        # If it hits a wall, bounce.
         self.bounce()
 
     def distance(self, other):
@@ -75,8 +79,8 @@ class Boid2(DrawableWithTrail, DrawableCircle):
             centerX /= numNeighbors
             centerY /= numNeighbors
 
-            self.vx += (centerX - self.x) * self._CENTERING_FACTOR
-            self.vy += (centerY - self.y) * self._CENTERING_FACTOR
+        self.vx += (centerX - self.x) * self._CENTERING_FACTOR
+        self.vy += (centerY - self.y) * self._CENTERING_FACTOR
 
     def separation(self,others):
         _MINDISTANCE = 100
