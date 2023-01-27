@@ -46,6 +46,7 @@ class Boid2(DrawableWithTrail, DrawableCircle):
     def move(self, others):
         self.cohesion(others)
         self.separation(others)
+        self.alignment(others)
         self.cap_speed()
         # Update position
         x, y = self.x, self.y
@@ -92,6 +93,22 @@ class Boid2(DrawableWithTrail, DrawableCircle):
         self.vx += moveX*_AVOIDFACTOR
         self.vy += moveY*_AVOIDFACTOR
 
+    def alignment(self, others):
+        avgVx = 0
+        avgVy = 0
+        numNeighbors = 0
+
+        for other in others:
+            if self.distance(other) < self._VISUAL_RANGE:
+                avgVx += other.vx
+                avgVy += other.vy
+                numNeighbors += 1
+        if numNeighbors > 0:
+            avgVx /= numNeighbors
+            avgVy /= numNeighbors
+
+            self.vx += (avgVx - self.vx) * self._CENTERING_FACTOR
+            self.vy += (avgVy - self.vy) * self._CENTERING_FACTOR
 
 
     def __repr__(self) -> str:
